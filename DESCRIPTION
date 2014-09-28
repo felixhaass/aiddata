@@ -1,0 +1,20 @@
+Package: aiddata
+Title: Access AidData API
+Description: Functions to access and download AidData through the AidData 3.0
+    API. Allows the user to download a list of aid projects for a given country
+    and year(s), as well as information on the geolocation of aid projects (if
+    available).
+Version: 0.1
+Imports:
+    httr,
+    dplyr,
+    data.table
+Suggests:
+    knitr
+Authors@R: person("Felix", "Haass", email = "haass@giga-hamburg.de",
+    role = c("aut", "cre"))
+Depends:
+    R (>= 3.0.2)
+License: GPL-3
+LazyData: true
+VignetteBuilder: knitr

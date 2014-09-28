@@ -1,0 +1,32 @@
+---
+title: "To Do aiddata"
+author: "Felix Haass"
+date: "Sunday, September 28, 2014"
+output: html_document
+---
+
+## To Do:
+
+- Section code lookup table
+- Lookup function for aid project by ID, using httr's BROWSE function.
+- User input on which fields to download
+
+
+## Questions
+
+- How do I get GIS precision codes? They don't seem to be in the GIS API result
+- Directly access project information instead of queries => would be relevant for linking API GIS result and project information
+- Speed of AidData requests: is looping over the resulting pages the valid solution? Or is there anything quicker?
+- 
+
+## Thoughts
+Why `aiddata` package is useful over existing research releases
+
+- Research release only AidData 2.1, existing version 3.0
+- Most recent data available
+- GIS data
+
+Downside
+
+- Not easily reproducible data, because databse is constantly uploaded. For research purposes use research releases or store snaphsot on your hard drive & distribute it with your research code.
+

@@ -1,0 +1,47 @@
+---
+title: "AidData Vignette"
+author: "Felix Haass"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{AidData Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+## AidData for R
+
+The [AidData](http://aiddata.org) project makes available a wealth of information
+on development finance. At the core of their database lies the project-level information
+about development financing. The `aiddata` package for `R` simplifies the 
+access to this database directly from the `R` console.
+
+## Installation
+
+`aiddata` is not (yet) published on CRAN. It needs to be installed directly
+from GitHub, using `devtools`:
+
+```{r, eval = FALSE}
+
+install.packages("devtools")
+library(devtools)
+install_github("felixhaass/aiddata", dependencies = TRUE)
+library(aiddata)
+
+```
+
+
+## Overview
+
+`aiddata` is a set of functions that are wrapped around [`httr`](http://cran.r-project.org/web/packages/httr/) functions to access and download data from the [AidData API](http://aiddata.org/use-aiddatas-api). 
+
+Why `aiddata` package is useful over existing research releases
+
+- Research release only AidData 2.1, existing version 3.0
+- Most recent data available
+- GIS data
+
+Downside
+
+- Not easily reproducible data, because databse is constantly uploaded. For research purposes use research releases or store snaphsot on your hard drive & distribute it with your research code.
+

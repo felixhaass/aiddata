@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1411933160971.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "110E76E0",
+    "lastKnownWriteTime" : 4909015150931099986,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "testaid",
+        "contentUrl" : "content?title=testaid&file=dd337c88ebef4ffb8ea79d8c40312170.htm",
+        "displayedObservations" : 1000,
+        "displayedVariables" : 12,
+        "totalObservations" : 1031,
+        "variables" : 12
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
