@@ -1,12 +1,12 @@
 {
-    "contents" : "inst/doc\ntodo.\naiddata.Rproj\n",
+    "contents" : "inst/doc\ntodo.rmd\ntodo.html\n.Rbuildignore\n.gitignore\naiddata.Rproj\n",
     "created" : 1411935587505.000,
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2206669528",
+    "hash" : "2373404025",
     "id" : "530C089C",
-    "lastKnownWriteTime" : 1411935763,
+    "lastKnownWriteTime" : 1411936002,
     "path" : "C:/Users/FelixHaass/Dropbox/Work/aiddata/.gitignore",
     "project_path" : ".gitignore",
     "properties" : {

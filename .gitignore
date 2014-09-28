@@ -1,3 +1,6 @@
 inst/doc
-todo.
+todo.rmd
+todo.html
+.Rbuildignore
+.gitignore
 aiddata.Rproj
