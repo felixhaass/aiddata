@@ -3,4 +3,6 @@ todo.rmd
 todo.html
 .Rbuildignore
 .gitignore
+.gitattributes
 aiddata.Rproj
+.Rproj
