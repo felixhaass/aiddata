@@ -14,7 +14,7 @@ from GitHub, using `devtools`:
 
 install.packages("devtools")
 library(devtools)
-install_github("aiddata", user = "felixhaass", dependencies = TRUE)
+install_github("felixhaass/aiddata", dependencies = TRUE)
 library(aiddata)
 
 ```
