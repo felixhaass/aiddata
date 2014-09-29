@@ -23,3 +23,5 @@ library(aiddata)
 ## Overview
 
 `aiddata` is a set of functions that are wrapped around [`httr`](http://cran.r-project.org/web/packages/httr/) functions to access and download data from the [AidData API](http://aiddata.org/use-aiddatas-api). 
+
+... to be completed.
