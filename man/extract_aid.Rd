@@ -6,6 +6,6 @@
 extract_aid(x)
 }
 \description{
-Used internally by the \code{getAid} function
+Used internally by the \code{get_aid} function
 }
 

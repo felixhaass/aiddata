@@ -1,7 +1,6 @@
-#' Generate table with AidData destination/receiver IDs
+#' Generate tables with AidData destination/receiver and funding organization IDs
 #'
-#' A data frame with 234 observations on the following 8 variables.
-#' Used internally by the \code{getAid()} function.
+#' Used internally 
 lookuptable.orgID <- function(x) {
   # get data & convert
   res <- httr::GET("http://api.aiddata.org/data/destination/organizations")
@@ -14,13 +13,35 @@ lookuptable.orgID <- function(x) {
   res[, c("id", "oecdCode", "type_id")] <- apply(res[, c("id", "oecdCode", "type_id")], 2, function(x) as.numeric(lapply(x, as.numeric)))  
   # sort results
   lookup.table <- dplyr::arrange(res, name)
-  save(lookup.table, file = "../data/lookup-table.rda")
+  
+  # Get Donor IDs
+  donor.ids <- GET("http://api.aiddata.org/flows/origin")
+  donor.ids <- content(donor.ids)
+  donor.ids <- lapply(donor.ids$items, unlist)
+  
+  donor.table <- do.call(rbind, lapply(donor.ids, "[", c("source._id", "source.name", "source.iso2")))
+  donor.table <- data.frame(donor.table)
+  
+  # Get unique IDs (some appear twice in donor.ids)
+  donor.table <- plyr::ddply(donor.table, 
+                             .(source._id), 
+                             function(x) 
+                               data.frame(source.name = unique(x$source.name), 
+                                          source.iso2 = ifelse(is.null(unique(x$source.iso2)), 
+                                                               NA, 
+                                                               unique(as.character(x$source.iso2)))))
+  donor.table <- dplyr::arrange(donor.table, source.name)
+  
+
+  
+  save(lookup.table, file = "./data/lookup-table.rda")
+  save(donor.table, file = "./data/donor-lookup-table.rda")
   # return(lookup.table)
 }
 
 #' Extract variable information from parsed JSON / list input
 #' 
-#' Used internally by the \code{getAid} function
+#' Used internally by the \code{get_aid} function
 extract_aid <- function(x) {
   # Not all projects have info on all variables, so 'ifelse' captures 
   # missing variables and replace them with NA
@@ -90,7 +111,7 @@ extract_aid <- function(x) {
 #' \dontrun{
 #'  # Download and store all aid projects in Liberia by all donors 
 #'  # between 2006 and 2007 and don't show a progress bar.
-#'  aid_projects <- getAid(rec = "LR", start = 2006, end = 2007, progressbar = FALSE)
+#'  aid_projects <- get_aid(rec = "LR", start = 2006, end = 2007, progressbar = FALSE)
 #' }
 #' 
 #' @references
@@ -104,14 +125,25 @@ extract_aid <- function(x) {
 #' \url{http://aiddata.org} 
 #'  
 #' \url{http://aiddata.org/user-guide}
-#' @seealso \code{\link{getGIS}}
+#' @seealso \code{\link{get_gis}}
 #'   
-getAid <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, progressbar = TRUE) {
+get_aid <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, progressbar = TRUE) {
   if(is.null(rec) & is.null(donor)) stop("No donor or recipient country given. Please provide at least one recipient or donor country.")
   
   # lookup recipients organization 'ro' id
-  ro <- subset(lookup.table, iso2 %in% rec, select = id)
+  ro <- subset(lookup.table, iso2 %in% rec, select = c("id", "name"))
+  name <- paste(ro[, 2], collapse = ", ")
   ro <- paste(ro[, 1], collapse = ",")
+  
+  # lookup donor organization 'fo' id
+  fo <- subset(donor.table, source.iso2 %in% donor, select = c("source._id", "source.name"))
+  donor.name <- paste(fo[, 2], collapse = ", ")
+  fo <- paste(unique(fo[, 1]), collapse = ",")
+  
+  if(fo == "" & ro == "") {
+    stop("Donor/Recipient ISO not found")
+  }
+  
   
   # create years lookup
   years <- start:end
@@ -119,8 +151,8 @@ getAid <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, progressb
   
   # put together query options, based on user input
   query.opts <- list(ro = ro,
+                     fo = fo,
                      src = "1,2,3,4,5,6,7,8,9,3249668", # all sources
-                     # src = "8,9",
                      t = "1", # commitments only
                      y = years, 
                      from = 0,
@@ -128,6 +160,10 @@ getAid <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, progressb
   
   # obtain project count with given options
   count <- httr::content(httr::GET("http://api.aiddata.org/aid/project", query = query.opts))$project_count
+  
+  if(count == 0){
+    stop(paste("No aid projects by", donor.name, "found."))
+  }
   
   # AidData API limits queries to 50 projects per page. We need to determine the number of 
   # pages we must loop through.
@@ -139,7 +175,11 @@ getAid <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, progressb
   project_list <- data.frame(matrix(nrow=count, ncol=length(extract_aid(NULL))))
   
   if(progressbar) {
-    writeLines(paste("Downloading AidData for", count, "aid projects..." ))
+    writeLines(paste0("Downloading AidData for ", 
+                     count, 
+                     " aid projects", 
+                     ifelse(!is.null(rec), paste0(" in ", name), ""),
+                     ifelse(!is.null(donor), paste0(" from ", donor), "")))
     pb <- txtProgressBar(min = 0, max = ifelse(targetNumOfPages > 1, targetNumOfPages, 1), 
                          style = 3, width = 60)
   }
@@ -199,9 +239,9 @@ getAid <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, progressb
 #'   province name, town, village} \item{\code{lat: }}{Latitude} 
 #'   \item{\code{long: }}{Longitude} }
 #'   
-#'   If \code{proj.info = TRUE}, \code{getGIS} calls \code{getAid} to match 
-#'   point information with project information. See \code{\link{getAid}} 
-#'   documentation for list of variables returned by \code{getAid}. Since this 
+#'   If \code{proj.info = TRUE}, \code{get_gis} calls \code{get_aid} to match 
+#'   point information with project information. See \code{\link{get_aid}} 
+#'   documentation for list of variables returned by \code{get_aid}. Since this 
 #'   procedure downloads a lot of unnecessary information (only a fraction of 
 #'   all aid projects are geocoded), this process may take a while.
 #'   
@@ -229,12 +269,12 @@ getAid <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, progressb
 #' \dontrun{
 #'  # Download and store GIS information for aid projects in Angola between
 #'  # 2005 and 2007; get all project information for these projects
-#'  aidprojects_gis <- getGIS(rec = "AO", start = 2005, end = 2007, proj.info = TRUE)
+#'  aidprojects_gis <- get_gis(rec = "AO", start = 2005, end = 2007, proj.info = TRUE)
 #' }
 #' 
-#' @seealso \code{\link{getAid}}
+#' @seealso \code{\link{get_aid}}
 
-getGIS <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.info = FALSE) {
+get_gis <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.info = FALSE) {
   
   # lookup recipients organization 'ro' id
   ro <- subset(lookup.table, iso2 %in% rec, select = id)
@@ -263,7 +303,7 @@ getGIS <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.info
   res.df <- data.table::rbindlist(res.df)
   
   if(proj.info) {
-    proj_info_df <- getAid(rec = rec, donor = donor, start = start, end = end)
+    proj_info_df <- get_aid(rec = rec, donor = donor, start = start, end = end)
     res.df <- merge(as.data.frame(res.df), proj_info_df, by = "project_id", all.x = TRUE)
   }
   
@@ -304,7 +344,7 @@ getGIS <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.info
 #'   browser window with detail informationed from on the given project on the
 #'   AidData website. This can be useful if more information about the project
 #'   is required, e.g. the long description which isn't downloaded by
-#'   \code{getAid}. Wrapper around \code{httr}'s \code{\link{BROWSE}}
+#'   \code{get_aid}. Wrapper around \code{httr}'s \code{\link{BROWSE}}
 #'   function. Only works interactively.
 #'   
 #' @examples 

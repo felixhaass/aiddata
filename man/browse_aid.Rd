@@ -18,7 +18,7 @@ Quick lookup function to browse individual project IDs. Opens a
   browser window with detail informationed from on the given project on the
   AidData website. This can be useful if more information about the project
   is required, e.g. the long description which isn't downloaded by
-  \code{getAid}. Wrapper around \code{httr}'s \code{\link{BROWSE}}
+  \code{get_aid}. Wrapper around \code{httr}'s \code{\link{BROWSE}}
   function. Only works interactively.
 }
 \examples{

@@ -35,13 +35,26 @@ library(aiddata)
 
 `aiddata` is a set of functions that are wrapped around [`httr`](http://cran.r-project.org/web/packages/httr/) functions to access and download data from the [AidData API](http://aiddata.org/use-aiddatas-api). 
 
-Why `aiddata` package is useful over existing research releases
+The main functions are:
 
-- Research release only AidData 2.1, existing version 3.0
-- Most recent data available
-- GIS data
+* `get_aid()`: Download project-level information for one or more countries in a given time period.  
+* `get_gis()`: Download geographic point information for a subset of aid projects (not all aid projects are geo-coded)  
+* `browse_aid()`: Open browser page with detailed project information for a single project.
 
-Downside
+## Examples
 
-- Not easily reproducible data, because databse is constantly uploaded. For research purposes use research releases or store snaphsot on your hard drive & distribute it with your research code.
+`get_aid()` takes as input an ISO-2 character string of recipient or donor country
+and start and end years. It downloads information on all aid projects in the given 
+recipient or from the given donor. If both recipient and donor are provided, the resulting 
+aid projects represent information on aid flows in the recipient-donor dyad. 
+
+ISO-2 codes for donors and recipient can be obtained with the [`countrycode`](http://cran.r-project.org/web/packages/countrycode/index.html) package.
+
+```{r, eval = FALSE}
+
+result <- get_aid(rec = "AO", start = 1990, end = 1995)
+
+```
+
+
 
