@@ -59,18 +59,6 @@ result <- get_aid(rec = "AO", start = 1990, end = 1995)
 # Get all aid projects to Uganda from Germany in 1990
 result <- get_aid(rec = "UG", donor = "DE", start = 1990, end = 1990)
 ```
-
-The output data frame looks like this (example data for the first 5 aid
-projects in Angola in 1985):
-
-    project\_id recipient   recipient\_iso3   donor                                                  donor\_iso3     year title                                           name                                         tr\_constant\_value   tr\_nominal\_value sector3\_code   sector5\_code
-  ------------- ----------- ----------------- ------------------------------------------------------ ------------- ------ ----------------------------------------------- ------------------------------------------ --------------------- -------------------- --------------- ---------------
-        2071132 Angola      AGO               AFDB Group                                             NA              1985 Caita-Lucapa Road Study                         TRANSPORT AND STORAGE                                    2962568              1098420 210             21020
-        2412559 Angola      AGO               Arab Bank for Economic Development in Africa (BADEA)   NA              1985 Technical Assistance: National Bank of Angola   BANKING AND FINANCIAL SERVICES                            512452               190000 240             24030
-       84637705 Angola      AGO               Sweden                                                 SWE             1985 NA                                              Fishing                                                  5596771              1976239 313             31382
-       84761826 Angola      AGO               Canada                                                 CAN             1985 NA                                              Multisector                                               143533                54909 430             43010
-       84973406 Angola      AGO               Germany                                                DEU             1985 NA                                              DEVELOPMENT AID/FOOD SECURITY ASSISTANCE                 1147562               369930 520             52010
-
 Further information about the `get_aid` function is available through
 `?get_aid`.
 
@@ -121,7 +109,7 @@ ggplot(fortify(nepal_admin), aes(x = long, y = lat)) +
   theme(line = element_blank())
 ```
 
-<img src="./figures/unnamed-chunk-5.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
+<img src="https://github.com/felixhaass/aiddata/blob/master/vignettes/figures/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" style="display: block; margin: auto;" />
 
 ### `browse_project()`
 
