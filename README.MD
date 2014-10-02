@@ -31,9 +31,9 @@ API](http://aiddata.org/use-aiddatas-api).
 The main functions are:
 
 -   `get_aid()`: Download project-level information for one or more
-    countries in a given time period.\
+    countries in a given time period.
 -   `get_gis()`: Download geographic point information for a subset of
-    aid projects (not all aid projects are geo-coded)\
+    aid projects (not all aid projects are geo-coded)
 -   `browse_aid()`: Open browser page with detailed project information
     for a single project.
 
@@ -78,8 +78,8 @@ and subsets those projects for which point information is available.
 # Get point & project information for aid projects in Kenya from 2010 to 2011
 result <- get_gis(rec = "KE", start = 2010, end = 2011, proj.info = TRUE)
 
-# Get point & project information for aid projects in Nepal from from 2006 to 2011 (many projects, 
-# may take some time)
+# Get point & project information for aid projects in Nepal from from 2006 to 2011 
+# (many projects,  so this may take some time)
 result <- get_gis(rec = "NP", start = 2006, end = 2011, proj.info = TRUE)
 ```
 
@@ -131,3 +131,5 @@ Updates to the package will try to fix the following issues:
     project downloads. Why?
 -   Speed up matching of GIS information with AidData project
     information. Current function is rather inefficient.
+-   Include lookup table for purpose codes.
+

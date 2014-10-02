@@ -3,8 +3,6 @@ title: "AidData Vignette"
 author: "Felix Haass"
 date: "`r Sys.Date()`"
 output: 
-    md_document:
-      variant: markdown
     html_vignette:
 
 vignette: >
