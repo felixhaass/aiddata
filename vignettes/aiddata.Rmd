@@ -2,7 +2,11 @@
 title: "AidData Vignette"
 author: "Felix Haass"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+    md_document:
+      variant: markdown
+    html_vignette:
+
 vignette: >
   %\VignetteIndexEntry{AidData Vignette}
   %\VignetteEngine{knitr::rmarkdown}
@@ -43,6 +47,7 @@ The main functions are:
 
 ## Examples
 
+### `get_aid()` 
 `get_aid()` takes as input an ISO-2 character string of recipient or donor country
 and start and end years. It downloads information on all aid projects in the given 
 recipient or from the given donor. If both recipient and donor are provided, the resulting 
@@ -52,9 +57,85 @@ ISO-2 codes for donors and recipient can be obtained with the [`countrycode`](ht
 
 ```{r, eval = FALSE}
 
+# Get all aid projects to Angola from 1990 to 1995
 result <- get_aid(rec = "AO", start = 1990, end = 1995)
+
+# Get all aid projects to Uganda from Germany in 1990
+result <- get_aid(rec = "UG", donor = "DE", start = 1990, end = 1990)
+
+```
+
+The output data frame looks like this (example data for the first 5 aid projects in Angola in 1985):
+```{r, results='asis', echo=FALSE, message = FALSE}
+library(aiddata)
+result <- get_aid(rec = "AO", start = 1985, end = 1985, progressbar = FALSE)
+
+knitr::kable(head(result, 5))
+```
+
+Further information about the `get_aid` function is available through `?get_aid`.
+
+### `get_gis()`
+
+`get_gis()` also takes as input an ISO-2 character string of recipient or donor country
+and start and end years. It downloads point information on the geolocation of aid projects
+in the given country (or from the given donor, or both). The function also obtains
+project information for these points, using `get_aid`, if the option `proj.info = TRUE`.   
+
+Be aware that only a fraction of aid projects is geo-referenced; `get_gis` downloads all aid
+projects in the given year(s) and countries and subsets those projects for which point information is available. 
+
+```{r, eval = FALSE}
+
+# Get point & project information for aid projects in Kenya from 2010 to 2011
+result <- get_gis(rec = "KE", start = 2010, end = 2011, proj.info = TRUE)
+
+# Get point & project information for aid projects in Nepal from from 2006 to 2011 (many projects, 
+# may take some time)
+result <- get_gis(rec = "NP", start = 2006, end = 2011, proj.info = TRUE)
+
+```
+
+The resulting point information can be easily plotted with `R`'s excellent geo-visualization tools. The following
+example plots all aid projects with geo-referenced information in Nepal in 2007. Since the points are partially transparent, the dark red areas have more aid projects than the light red ones.
+
+```{r, eval = TRUE, fig.path="./figures/", fig.width = 7,fig.height = 4 , dev = "CairoPNG", message = FALSE, fig.align='center'}
+library(raster)
+library(ggplot2)
+library(aiddata)
+
+result <- get_gis(rec = "NP", start = 2007, end = 2007)
+
+nepal_admin <- getData('GADM', country = "NPL", level = 2)
+result_spatial <- SpatialPointsDataFrame(result[, c("lat", "long")], result)
+
+ggplot(fortify(nepal_admin), aes(x = long, y = lat)) + 
+  geom_point(data = data.frame(coordinates(result_spatial)), 
+             aes(long, lat), alpha = .2, color = "red", size = 2) +
+  geom_path(aes(group = group)) +
+  ggtitle("Aid Projects in Nepal in 2007\n") + 
+  coord_equal() +
+  theme_bw() +
+  theme(line = element_blank())
+
 
 ```
 
 
+### `browse_project()`
 
+`browse_project` takes as input the `project_id` given by `get_aid` and opens a browser window/tab with detailed information on the project from the [AidData](http://aiddata.org) website. Example:
+
+```{r, eval=FALSE}
+# Open browser window for project 800000048457
+browse_aid(800000048457)
+
+```
+
+
+## Issues / To Do
+
+Updates to the package will try to fix the following issues:
+
+* The reported project year differs sometimes between GIS and AidData project downloads. Why?
+* Speed up matching of GIS information with AidData project information. Current function is rather inefficient.

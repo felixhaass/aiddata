@@ -10,8 +10,10 @@ Imports:
     dplyr,
     data.table
 Suggests:
-    knitr
-Authors@R: person("Felix", "Haass", email = "haass@giga-hamburg.de",
+    knitr,
+    raster,
+    countrycode
+Authors@R: person("Felix", "Haass", email = "haass.felix@gmail.com",
     role = c("aut", "cre"))
 Depends:
     R (>= 3.0.2)

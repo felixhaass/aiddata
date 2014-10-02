@@ -286,7 +286,7 @@ get_gis <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.inf
   
   # put together query options, based on user input
   query.opts <- list(ro = ro,
-                     src = "1,2,3,4,5,6,7,3249668", # all sources
+                     src = "1,2,3,4,5,6,7,8,9,3249668", # all sources
                      t = "1", # commitments only
                      y = years, 
                      from = 0, 
@@ -296,7 +296,7 @@ get_gis <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.inf
   
   res.df <- lapply(result$items, function(x) data.frame(project_id = x$fields$loc_project_id,
                                                         score = x$`_score`,
-                                                        loc_geo_name = x$fields$loc_geo_name,
+                                                        loc_geo_name = ifelse(is.null(x$fields$loc_geo_name), NA, x$fields$loc_geo_name),
                                                         lat = x$fields$loc_point$lat,
                                                         long = x$fields$loc_point$lon,
                                                         stringsAsFactors = FALSE))
@@ -307,7 +307,10 @@ get_gis <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.inf
     res.df <- merge(as.data.frame(res.df), proj_info_df, by = "project_id", all.x = TRUE)
   }
   
-  return(res.df)
+  res.df$long <- as.numeric(res.df$long)
+  res.df$lat <- as.numeric(res.df$lat)
+  
+  return(data.frame(res.df))
 }
 
 #' Lookup table for countries and organizations in AidData
@@ -358,7 +361,7 @@ get_gis <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.inf
 browse_aid <- function(id = NULL) {
   
   if(!is.null(id)) {
-    BROWSE(paste0("http://aiddata.org/dashboard#/project/", id))
+    httr::BROWSE(paste0("http://aiddata.org/dashboard#/project/", id))
   } else {
     stop("Please provide AidData project ID")
   }
