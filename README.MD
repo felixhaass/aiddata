@@ -3,7 +3,7 @@ AidData for R
 
 The [AidData](http://aiddata.org) project makes available a wealth of
 information on development finance. At the core of their database lies
-the project-level information about development financing. The `aiddata`
+the project-level information about development aid transfers. The `aiddata`
 package for `R` simplifies the access to this database directly from the
 `R` console.
 
