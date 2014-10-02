@@ -45,9 +45,9 @@ This function downloads information on all aid projects between
   \item{\code{donor_iso3:} }{Donor ISO-3 character string. \code{NA} if IGO,
   NGO, or no official counry} \item{\code{year:} }{Year of commitment}
   \item{\code{title: }}{Project title} \item{\code{name: }}{Sector name}
-  \item{\code{tr_constant_value: }}{Value of transaction in constant USD2009}
+  \item{\code{tr_constant_value: }}{Value of transaction in constant USD2009 (commitment)}
   \item{\code{tr_nominal_value: }}{Value of transaction, as reported by the
-  donor in the reported currency} \item{\code{sector3_code: }}{AidData's
+  donor in the reported currency (commitment)} \item{\code{sector3_code: }}{AidData's
   3-digit sector code} \item{\code{sector5_code: }}{AidData's 5-digit sector
   code} }
 }
