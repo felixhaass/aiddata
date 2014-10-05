@@ -132,4 +132,5 @@ Updates to the package will try to fix the following issues:
 -   Speed up matching of GIS information with AidData project
     information. Current function is rather inefficient.
 -   Include lookup table for purpose codes.
+-   Implement all [API parameters](http://aiddata.org/api-parameter-quick-guide) as function arguments
 
