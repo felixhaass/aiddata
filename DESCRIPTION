@@ -1,5 +1,5 @@
 Package: aiddata
-Title: Access AidData API
+Title: Access AidData API from R Console
 Description: Functions to access and download AidData through the AidData 3.0
     API. Allows the user to download a list of aid projects for a given country
     and year(s), as well as information on the geolocation of aid projects (if

@@ -7,6 +7,9 @@ the project-level information about development aid transfers. The `aiddata`
 package for `R` simplifies the access to this database directly from the
 `R` console.
 
+To learn more about which donors are included in the database, visit the [AidData
+User Guide](http://aiddata.org/user-guide).
+
 Installation
 ------------
 
@@ -85,9 +88,10 @@ result <- get_gis(rec = "NP", start = 2006, end = 2011, proj.info = TRUE)
 
 The resulting point information can be easily plotted with `R`'s
 excellent geo-visualization tools. The following example plots all aid
-projects with geo-referenced information in Nepal in 2007. Since the
-points are partially transparent, the dark red areas have more aid
-projects than the light red ones.
+projects with geo-referenced information in Nepal in 2007. One point represents one 
+aid project. Since the
+points are partially transparent, the dark red areas represent overlapping points, meaning they
+have more aid projects than the light red ones.
 
 ``` {.r}
 library(raster)
@@ -127,10 +131,6 @@ Issues / To Do
 
 Updates to the package will try to fix the following issues:
 
--   The reported project year differs sometimes between GIS and AidData
-    project downloads. Why?
 -   Speed up matching of GIS information with AidData project
     information. Current function is rather inefficient.
--   Include lookup table for purpose codes.
--   Implement all [API parameters](http://aiddata.org/api-parameter-quick-guide) as function arguments
 
