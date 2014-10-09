@@ -13,8 +13,8 @@ User Guide](http://aiddata.org/user-guide).
 Feedback
 ------------
 
-I'd love to hear your feedback / comments / complaints about the package. I'm tracking
-all the bugs and recommendation [here}(https://github.com/felixhaass/aiddata/issues), 
+I'd love to get your feedback / comments / complaints about the package. I'm tracking
+all the bugs and recommendation [here](https://github.com/felixhaass/aiddata/issues), 
 so feel free to open an new issue if anything comes to your mind.
 
 Installation
