@@ -134,11 +134,4 @@ the [AidData](http://aiddata.org) website. Example:
 browse_aid(800000048457)
 ```
 
-Issues / To Do
---------------
-
-Updates to the package will try to fix the following issues:
-
--   Speed up matching of GIS information with AidData project
-    information. Current function is rather inefficient.
 
