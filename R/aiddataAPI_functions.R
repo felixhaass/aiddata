@@ -294,11 +294,11 @@ get_gis <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.inf
   result <- httr::GET("http://api.aiddata.org/gis/aid", query = query.opts)
   result <- httr::content(result)
   
-  res.df <- lapply(result$items, function(x) data.frame(project_id = x$fields$loc_project_id,
-                                                        score = x$`_score`,
+  res.df <- lapply(result$items, function(x) data.frame(project_id = ifelse(is.null(x$fields$loc_project_id), NA, x$fields$loc_project_id) ,
+                                                        score = ifelse(is.null(x$`_score`), NA, x$`_score`),
                                                         loc_geo_name = ifelse(is.null(x$fields$loc_geo_name), NA, x$fields$loc_geo_name),
-                                                        lat = x$fields$loc_point$lat,
-                                                        long = x$fields$loc_point$lon,
+                                                        lat = ifelse(is.null(x$fields$loc_point$lat), NA, x$fields$loc_point$lat),
+                                                        long = ifelse(is.null(x$fields$loc_point$lon), NA, x$fields$loc_point$lon),
                                                         stringsAsFactors = FALSE))
   res.df <- data.table::rbindlist(res.df)
   

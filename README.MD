@@ -10,6 +10,13 @@ package for `R` simplifies the access to this database directly from the
 To learn more about which donors are included in the database, visit the [AidData
 User Guide](http://aiddata.org/user-guide).
 
+Feedback
+------------
+
+I'd love to hear your feedback / comments / complaints about the package. I'm tracking
+all the bugs and recommendation [here}(https://github.com/felixhaass/aiddata/issues), 
+so feel free to open an new issue if anything comes to your mind.
+
 Installation
 ------------
 
@@ -73,7 +80,8 @@ on the geolocation of aid projects in the given country (or from the
 given donor, or both). The function also obtains project information for
 these points, using `get_aid`, if the option `proj.info = TRUE`.
 
-Be aware that only a fraction of aid projects is geo-referenced;
+Be aware that only a fraction of aid projects is geo-referenced and that the number 
+of projects that are geo-referenced vary by country and year.
 `get_gis` downloads all aid projects in the given year(s) and countries
 and subsets those projects for which point information is available.
 
