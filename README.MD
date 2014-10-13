@@ -14,8 +14,8 @@ Feedback
 ------------
 
 I'd love to get your feedback / comments / complaints about the package. I'm tracking
-all the bugs and recommendation [here](https://github.com/felixhaass/aiddata/issues), 
-so feel free to open an new issue if anything comes to your mind.
+all the bugs and recommendations [with GitHub Issues](https://github.com/felixhaass/aiddata/issues), 
+so feel free to open a new issue if anything comes to your mind.
 
 Installation
 ------------
