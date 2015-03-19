@@ -361,7 +361,7 @@ get_gis <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, proj.inf
 browse_aid <- function(id = NULL) {
   
   if(!is.null(id)) {
-    httr::BROWSE(paste0("http://aiddata.org/dashboard%23/project/", id))
+    httr::BROWSE(paste0("http://aiddata.org/dashboard#/project/", id))
   } else {
     stop("Please provide AidData project ID")
   }
