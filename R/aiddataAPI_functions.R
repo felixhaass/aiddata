@@ -152,7 +152,7 @@ get_aid <- function(rec = NULL, donor = NULL, start = NULL, end = NULL, progress
   # put together query options, based on user input
   query.opts <- list(ro = ro,
                      fo = fo,
-                     src = "1,2,3,4,5,6,7, 3249668", # all sources as per 
+                     src = "1,2,3,4,5,6,7,3249668", # all sources as per 
                      t = "1", # commitments only
                      y = years, 
                      from = 0,
